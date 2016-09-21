@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tweetzer</title>
+    <link type="text/css" rel="stylesheet" href="css/tweetzer-stylesheet.css">
+</head>
+<body>
+<header>
+    <div class="header-inner">
+        <img id="bird" src="css/blue_chocobo_by_atrumlupusluna-d58vqcy.png" />
+        <h1>tweetzer</h1>
+    </div>
+</header>
+
+<div class="container messages">
+    <div class="container-inner">
+
+        <div class="profile-header">
+            <img id="large-profile-img" src="css/profile.jpg" />
+            <p>{{ name }}</p>
+        </div>
+
+        <form action="/create-message" method="post">
+            <label>What's up?</label><br/><br/>
+            <input id="message-input" type="text" placeholder="Tweetz it to the world" name="message" />
+            <button type="submit">Submit</button>
+        </form>
+        <form id="logout" action="/logout" method="post">
+            <button type="submit">Log Out</button>
+        </form>
+        <div class="all-messages">
+            {{#messages}}
+            <div class="message-block"><img id="small-profile-img" src="{{ image }}" /><p><a href="">@{{ name }}</a>&nbsp;{{ message }}<br/></p></div>
+            {{/messages}}
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

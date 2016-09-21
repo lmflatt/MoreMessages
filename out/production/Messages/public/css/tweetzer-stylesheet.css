@@ -1,0 +1,127 @@
+body {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    width: 100%;
+    background-color: #4099ff;
+    justify-content: space-between;
+
+}
+
+.header-inner {
+    display: flex;
+    max-width: 800px;
+    height: 100%;
+    margin: auto;
+}
+
+#bird {
+    display: flex;
+    max-width: 140px;
+    max-height: 140px;
+    justify-content: flex-start;
+}
+
+header h1 {
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    font-family: "Comic Sans MS", sans-serif;
+    color: #fff;
+}
+
+.container {
+    width: 100%;
+    min-height: 600px;
+    background-color: #70ccff;
+}
+
+.container-inner {
+    margin: 0;
+    height: 100%;
+    min-height: 600px;
+    max-width: 800px;
+    margin: auto;
+    background-color: #fff;
+}
+
+form {
+    padding: 50px 0 50px 0;
+    text-align: center;
+}
+
+form label {
+    padding-right: 25%;
+    font-family: "Comic Sans MS", sans-serif;
+}
+
+form input {
+    margin-right: 10px;
+}
+
+#warning {
+    text-align: center;
+    font-family: "Comic Sans MS", sans-serif;
+}
+
+#large-profile-img {
+    max-width: 250px;
+    padding-left: 40px;
+    float: left;
+}
+
+.profile-header {
+    padding-top: 40px;
+}
+
+.profile-header p {
+    font-family: "Comic Sans MS", sans-serif;
+    font-size: 32px;
+    padding-top: 40px;
+    padding-left: 340px;
+    clear: right;
+}
+
+.messages form {
+    margin-top: 50px;
+}
+
+#message-input {
+    width: 250px;
+}
+
+#small-profile-img {
+    width: 100px;
+    float: left;
+}
+
+.all-messages {
+    padding-bottom: 100px;
+}
+
+#logout {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.message-block {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    height: 120px;
+    padding: 10px 10px 10px 10px;
+    border: 1px solid #333;
+}
+
+.message-block p {
+    padding-top: 20px;
+    padding-left: 120px;
+}

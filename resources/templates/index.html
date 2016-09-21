@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tweetzer</title>
+    <link type="text/css" rel="stylesheet" href="css/tweetzer-stylesheet.css">
+</head>
+<body>
+<header>
+    <div class="header-inner">
+        <img id="bird" src="css/blue_chocobo_by_atrumlupusluna-d58vqcy.png" />
+        <h1>tweetzer</h1>
+    </div>
+</header>
+
+<div class="container">
+    <div class="container-inner">
+        <div id="warning">{{ warning }}</div>
+
+        <form action="/login" method="post">
+            <label>login</label><br/><br/>
+            <input type="text" placeholder="Enter your name" name="name" />
+            <input type="text" placeholder="Enter your password" name="password" />
+            <button type="submit">Login</button>
+        </form>
+
+        <hr/>
+
+        <form action="/create-user" method="post">
+            <label>or create an account</label><br/><br/>
+            <input type="text" placeholder="Enter your name" name="newName" />
+            <input type="text" placeholder="Enter your password" name="newPassword" />
+            <button type="submit">Create Account</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
