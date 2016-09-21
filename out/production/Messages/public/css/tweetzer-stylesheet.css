@@ -100,6 +100,7 @@ form input {
 #small-profile-img {
     width: 100px;
     float: left;
+    margin-right: 20px;
 }
 
 .all-messages {
@@ -121,7 +122,11 @@ form input {
     border: 1px solid #333;
 }
 
-.message-block p {
-    padding-top: 20px;
-    padding-left: 120px;
+#delete-form {
+    text-align: left;
+    padding: 0;
+}
+
+#borderless {
+    border: none;
 }

@@ -1,4 +1,5 @@
 import spark.ModelAndView;
+import spark.Session;
 import spark.Spark;
 import spark.template.mustache.MustacheTemplateEngine;
 
@@ -10,10 +11,8 @@ import java.util.Map;
 public class Main {
 
     public static Map<String, User> users = new HashMap();
-    static User user;
-    static Message message;
     public static String warning = "";
-    public static ArrayList<Message> messageList = new ArrayList<>();
+//    public static ArrayList<Message> messageList = new ArrayList<>();
 
     public static void main(String[] args) {
         Spark.staticFileLocation("/public");
@@ -21,16 +20,20 @@ public class Main {
 
         Spark.get("/",
                 ((request, response) -> {
-                    Map m = new HashMap();
+                    Session session = request.session();
+                    String name = session.attribute("loginName");
+                    User user = users.get(name);
+                    HashMap m = new HashMap();
+
                     if (user == null) {
                         m.put("warning", warning);
                         return new ModelAndView(m, "index.html");
                     } else {
                         m.put("name", user.getName());
-                        if (!user.getMessages().isEmpty()) {
-                            messageList = user.getMessages();
-                        }
-                        m.put("messages", messageList);
+//                        if (!user.getMessages().isEmpty()) {
+//                            messageList = user.getMessages();
+//                        }
+                        m.put("messages", user.getMessages());
                         m.put("image", "css/profile.jpg");
                         return new ModelAndView(m, "messages.html");
                     }
@@ -43,21 +46,23 @@ public class Main {
                 ((request, response) -> {
                     String name = request.queryParams("name");
                     String password = request.queryParams("password");
+                    User user = users.get(name);
 
-                    if (users.containsKey(name)) {
+                    if (user != null) {
 
-                        user = users.get(name);
                         if (password.equalsIgnoreCase(user.getPassword())) {
-                            response.redirect("/");
+                            warning = "";
+                            Session session = request.session();
+                            session.attribute("loginName", name);
                         } else {
                             user = null;
                             warning = "Incorrect Login Information.";
-                            response.redirect("/");
                         }
                     } else {
                         warning = "User does not exist.";
-                        response.redirect("/");
                     }
+
+                    response.redirect("/");
                     return "";
                 })
         );
@@ -69,14 +74,18 @@ public class Main {
                     String name = request.queryParams("newName");
                     String password = request.queryParams("newPassword");
 
-                    if (users.containsKey(name)) {
-                        response.redirect("/");
-                        warning = "User Name is already taken.";
+                    if (name.length() > 0 && password.length() > 0) {
+                        if (users.containsKey(name)) {
+                            warning = "User Name is already taken.";
+                        } else {
+                            users.put(name, new User(name, password));
+                            Session session = request.session();
+                            session.attribute("loginName", name);
+                        }
                     } else {
-                        user = new User(name, password);
-                        users.put(name, user);
-                        response.redirect("/");
+                        warning = "Your username or password was left blank.";
                     }
+                    response.redirect("/");
                     return "";
                 })
         );
@@ -84,16 +93,47 @@ public class Main {
         Spark.post(
                 "/create-message",
                 ((request, response) -> {
-                    String userMessage = request.queryParams("message");
-                    if (!user.getMessages().isEmpty()) {
-                        messageList = user.getMessages();
+                    Session session = request.session();
+                    String name = session.attribute("loginName");
+                    User user = users.get(name);
+                    if (user == null) {
+                        throw new Exception("User is not logged in!");
                     }
-                    message = new Message(userMessage);
-                    messageList.add(message);
-                    user.setMessages(messageList);
-                    users.put(user.getName(), user);
-                    response.redirect("/");
 
+                    String userMessage = request.queryParams("message");
+//                    if (!user.getMessages().isEmpty()) {
+//                        messageList = user.getMessages();
+//                    }
+                    Message message = new Message(userMessage);
+                    user.getMessages().add(0,message);
+
+                    response.redirect("/");
+                    return "";
+                })
+        );
+
+        Spark.post(
+                "/delete-message",
+                ((request, response) -> {
+                    Session session = request.session();
+                    String name = session.attribute("loginName");
+                    Message message = new Message(request.queryParams("userMessage"));
+                    User user = users.get(name);
+
+                    if (user == null) {
+                        throw new Exception("How are you not logged in?");
+                    }
+                    else {
+//                        messageList = user.messages;
+                        for (Message m : user.getMessages()) {
+                            if (m.getMessage().equals(message.getMessage())) {
+                                int index = user.getMessages().indexOf(m);
+                                user.getMessages().remove(index);
+                            }
+                        }
+                    }
+
+                    response.redirect("/");
                     return "";
                 })
         );
@@ -101,10 +141,9 @@ public class Main {
         Spark.post(
                 "/logout",
                 ((request, response) -> {
-                    user = null;
-                    messageList = new ArrayList<>();
+                    Session session = request.session();
+                    session.invalidate();
                     response.redirect("/");
-
                     return "";
                 })
         );

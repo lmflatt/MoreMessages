@@ -31,7 +31,15 @@
         </form>
         <div class="all-messages">
             {{#messages}}
-            <div class="message-block"><img id="small-profile-img" src="{{ image }}" /><p><a href="">@{{ name }}</a>&nbsp;{{ message }}<br/></p></div>
+            <form id="delete-form" action="/delete-message" method="post">
+                <div class="message-block">
+                    <img id="small-profile-img" src="{{ image }}" />
+                    <span><br/><a href="">@{{ name }}</a>&nbsp;<input id="borderless" name="userMessage" width="300" value="{{ message }}" readonly /></span>
+                    <br/><br/>
+                    <button type="submit">Delete</button>
+
+                </div>
+            </form>
             {{/messages}}
         </div>
     </div>
