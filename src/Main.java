@@ -105,7 +105,7 @@ public class Main {
 //                        messageList = user.getMessages();
 //                    }
                     Message message = new Message(userMessage);
-                    user.getMessages().add(0,message);
+                    user.getMessages().add(0, message);
 
                     response.redirect("/");
                     return "";
@@ -122,18 +122,18 @@ public class Main {
 
                     if (user == null) {
                         throw new Exception("How are you not logged in?");
-                    }
-                    else {
+                    } else {
 //                        messageList = user.messages;
                         for (Message m : user.getMessages()) {
                             if (m.getMessage().equals(message.getMessage())) {
                                 int index = user.getMessages().indexOf(m);
                                 user.getMessages().remove(index);
+                                response.redirect("/");
                             }
                         }
                     }
 
-                    response.redirect("/");
+
                     return "";
                 })
         );
